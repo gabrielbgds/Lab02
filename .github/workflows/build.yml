@@ -1,13 +1,23 @@
-name: Simple Local
+name: build-node
 on: push
 jobs:
-   build-node:
-       runs-on: ubuntu-latest
-       container: node:18
-       steps:
-           - run: node --version
-           - run: npm --version
-           - uses: actions/checkout@v3
-           - run: npm install
-           - run: npm install --save moment
-           - run: node app.js
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v3
+      
+      - name: Use Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '14'
+      
+      - name: Install dependencies
+        run: |
+          cd .github/workflows
+          npm install
+      
+      - name: Run application
+        run: |
+          cd .github/workflows
+          node app.js
